@@ -4,11 +4,11 @@
 /**
  * Represents the size of the grid
  */
-const int GRID_SIZE = 64;
+const int GRID_SIZE = 256;
 /**
  * Represents the size of a tile
  */
-int TILE_SIZE = 8;
+int TILE_SIZE = 2;
 
 /**
  * Represents a window
@@ -65,6 +65,10 @@ typedef enum {
 	 */
 	TREE,
 	/**
+	 * A dense tree tile
+	 */
+	DENSE_TREE,
+	/**
 	 * A water tile
 	 */
 	WATER,
@@ -84,6 +88,10 @@ typedef enum {
 	 * A trench tile
 	 */
 	TRENCH,
+	/**
+	 * Just to have a size for the enum
+	 */
+	TILE_TYPE_SIZE
 } TileType;
 
 /**
@@ -140,6 +148,14 @@ typedef struct {
 	 * Whether to save the content into a csv file
 	 */
 	bool export_csv;
+	/**
+	 * Wind direction
+	 */
+	double wind_direction;
+	/**
+	 * Wind speed
+	 */
+	double wind_speed;
 } Grid;
 
 /**
@@ -153,6 +169,8 @@ Color get_color(TileType type, int state) {
 	switch (type) {
 		case TREE:
 			return (Color) {30, 81, 52};
+		case DENSE_TREE:
+			return (Color) {18, 49, 33};
 		case WATER:
 			return (Color) {113, 175, 172};
 		case GRASS:
@@ -168,6 +186,8 @@ Color get_color(TileType type, int state) {
 			}
 		case BURNT:
 			return (Color) {78, 78, 78};
+		case TRENCH:
+			return (Color) {77, 5, 0};
 	}
 
 	return (Color) {0, 0, 0};

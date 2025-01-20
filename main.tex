@@ -56,7 +56,7 @@
     \frametitle{Introduction \hyperlink{jump}{\beamerbutton{ }} \hypertarget{1}{\beamerbutton{ }}}
 
     \begin{block}{Contexte}
-        Les feux de forêt sont de plus en plus fréquents. L'informatique peut se révéler être un atout de taille pour contrer ces derniers
+        Les feux de forêt sont de plus en plus fréquents. L'informatique peut se révéler être un atout de taille pour prévoir et anticiper ces derniers.
     \end{block}
 
     \begin{figure}
@@ -198,92 +198,202 @@
 \end{frame}
 
 \begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{9}{\beamerbutton{ }}}
-    // TODO : Résultats sans vent sur la même grille et comparaison
-
+    Comparaison du premier modèle et de celui d'Alexandridis à $t=200$.
+    
     \begin{figure}[!htb]
         \begin{minipage}{0.48\textwidth}
           \centering
           \includegraphics[width=.8\linewidth]{pictures/model1/land_200.png}
-          \caption{Modèle 1 ($t=200$)}\label{Fig:Data1}
+          \caption{Modèle 1}\label{Fig:Data1}
         \end{minipage}\hfill
         \begin{minipage}{0.48\textwidth}
           \centering
           \includegraphics[width=.8\linewidth]{pictures/model2/land_200_nowind.png}
-          \caption{Modèle 2 ($t=200$)}\label{Fig:Data2}
+          \caption{Modèle 2}\label{Fig:Data2}
         \end{minipage}
      \end{figure}
 \end{frame}
 
 \begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{10}{\beamerbutton{ }}}
-    // TODO : Prise en compte du vent dans une grille dense, et dans une grille pas dense
-
-    // Vent : 15m/s
+    Comparaison selon la densité de végétation avec $15$ m/s de vent vers l'est.
 
     \begin{figure}[!htb]
         \begin{minipage}{0.48\textwidth}
           \centering
           \includegraphics[width=.8\linewidth]{pictures/model2/land_200_wind_notdense.png}
-          \caption{Vent à $15m/s$ vers l'est non dense ($t=200$)}\label{Fig:Data1}
+          \caption{Végétation normale}\label{Fig:Data1}
         \end{minipage}\hfill
         \begin{minipage}{0.48\textwidth}
           \centering
           \includegraphics[width=.8\linewidth]{pictures/model2/land_200_wind_dense.png}
-          \caption{Vent à $15m/s$ vers l'est dense ($t=200$)}\label{Fig:Data2}
+          \caption{Végétation dense}\label{Fig:Data2}
         \end{minipage}
      \end{figure}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Navigateur \hypertarget{jump}{\beamerbutton{ }}}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{11}{\beamerbutton{ }}}
+    \begin{block}{Objectif}
+        Mieux protéger la forêt contre les incendies en la modifiant le moins possible.
+    \end{block}
 
-    \hyperlink{1}{\beamerbutton{Diapo 1}} \\
-    \hyperlink{2}{\beamerbutton{Diapo 2}}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{pictures/chemin.jpeg}
+        \caption{Chemin forestier - Forêt du Rouvray \footnote{ONF}}
+        \label{fig:enter-label}
+    \end{figure}
 \end{frame}
 
-% \begin{frame}[
-% t, % align text from top
-% allowframebreaks, % allow brake frames
-% fragile % allow verb content
-% ]{main.c}
-%     \scriptsize
-%     \inputminted[breaklines,breakanywhere,fontsize=\tiny,
-%     tabsize=2]{c}{code/main.c}
-% \end{frame}
-% \begin{frame}[
-% t, % align text from top
-% allowframebreaks, % allow brake frames
-% fragile % allow verb content
-% ]{misc.c}
-%     \scriptsize
-%     \inputminted[breaklines,breakanywhere,fontsize=\tiny,
-%     tabsize=2]{c}{code/misc.c}
-% \end{frame}
-% \begin{frame}[
-% t, % align text from top
-% allowframebreaks, % allow brake frames
-% fragile % allow verb content
-% ]{grid.c}
-%     \scriptsize
-%     \inputminted[breaklines,breakanywhere,fontsize=\tiny,
-%     tabsize=2]{c}{code/grid.c}
-% \end{frame}
-% \begin{frame}[
-% t, % align text from top
-% allowframebreaks, % allow brake frames
-% fragile % allow verb content
-% ]{typings.c}
-%     \scriptsize
-%     \inputminted[breaklines,breakanywhere,fontsize=\tiny,
-%     tabsize=2]{c}{code/typings.c}
-% \end{frame}
-% \begin{frame}[
-% t, % align text from top
-% allowframebreaks, % allow brake frames
-% fragile % allow verb content
-% ]{draw.c}
-%     \scriptsize
-%     \inputminted[breaklines,breakanywhere,fontsize=\tiny,
-%     tabsize=2]{c}{code/draw.c}
-% \end{frame}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{12}{\beamerbutton{ }}}
+    \begin{block}{Nouveau type de case :}
+        \begin{itemize}
+            \item Chemins/Tranchées avec $p_{veg} = -0.55$ et $p_{den} = 0$
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Probabilité d'inflammage $p_b$}
+        On a $p_b = p_h (1 + p_{veg}) (1 + p_{den}) p_{vent}$ avec $p_h = 0.27$ une constante
+    \end{block}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=.3\linewidth]{pictures/model1/land_before.png}
+        \caption{Exemple de chemins}\label{Fig:Data1}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{13}{\beamerbutton{ }}}
+    Comparaison entre une forêt avec une tranchée et une sans (moyennée sur $100$ générations)
+    
+    \begin{figure}[!htb]
+        \begin{minipage}{0.48\textwidth}
+          \centering
+          \includegraphics[width=.8\linewidth]{pictures/trans/no_treach.png}
+          \caption{Sans tranchées}\label{Fig:Data1}
+        \end{minipage}\hfill
+        \begin{minipage}{0.48\textwidth}
+          \centering
+          \includegraphics[width=.8\linewidth]{pictures/trans/treach.png}
+          \caption{Avec tranchées}\label{Fig:Data2}
+        \end{minipage}
+     \end{figure}
+\end{frame}
+
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{14}{\beamerbutton{ }}}
+    Comparaison entre une forêt avec une tranchée et $15$ ou $30$ m/s de vent (moyennée sur $100$ générations)
+    
+    \begin{figure}[!htb]
+        \begin{minipage}{0.48\textwidth}
+          \centering
+          \includegraphics[width=.8\linewidth]{pictures/trans/treach_15.png}
+          \caption{$15$ m/s de vent}\label{Fig:Data1}
+        \end{minipage}\hfill
+        \begin{minipage}{0.48\textwidth}
+          \centering
+          \includegraphics[width=.8\linewidth]{pictures/trans/treach_30.png}
+          \caption{$30$ m/s de vent}\label{Fig:Data2}
+        \end{minipage}
+     \end{figure}
+\end{frame}
+
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{15}{\beamerbutton{ }}}
+    Comparaison entre deux tranchées de largeurs différentes (moyennée sur $100$ générations)
+    
+    \begin{figure}[!htb]
+        \begin{minipage}{0.48\textwidth}
+          \centering
+          \includegraphics[width=.8\linewidth]{pictures/trans/treach.png}
+          \caption{Tranchée de $8$m}\label{Fig:Data1}
+        \end{minipage}\hfill
+        \begin{minipage}{0.48\textwidth}
+          \centering
+          \includegraphics[width=.8\linewidth]{pictures/trans/little_treach.png}
+          \caption{Tranchée de $4$m}\label{Fig:Data2}
+        \end{minipage}
+     \end{figure}
+\end{frame}
+
+\begin{frame}{Conclusion \hyperlink{jump}{\beamerbutton{ }} \hypertarget{16}{\beamerbutton{ }}}
+    Possibilité de prendre en compte pour améliorer les simulations :
+    \begin{itemize}
+        \item Humidité
+        \item Altitude/pentes
+        \item Température
+    \end{itemize}
+
+    D'autres transformations sont envisageables :
+    \begin{itemize}
+        \item Lacs/Cours d'eau
+        \item Réduction de la densité de végétation
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Navigateur \hypertarget{jump}{\beamerbutton{ }}}
+    
+    \hyperlink{1}{\beamerbutton{Diapo 1}} \\
+    \hyperlink{2}{\beamerbutton{Diapo 2}} \\
+    \hyperlink{3}{\beamerbutton{Diapo 3}} \\
+    \hyperlink{4}{\beamerbutton{Diapo 4}} \\
+    \hyperlink{5}{\beamerbutton{Diapo 5}} \\
+    \hyperlink{6}{\beamerbutton{Diapo 6}} \\
+    \hyperlink{7}{\beamerbutton{Diapo 7}} \\
+    \hyperlink{8}{\beamerbutton{Diapo 8}} \\
+    \hyperlink{9}{\beamerbutton{Diapo 9}} \\
+    \hyperlink{10}{\beamerbutton{Diapo 10}} \\
+    \hyperlink{11}{\beamerbutton{Diapo 11}} \\
+    \hyperlink{12}{\beamerbutton{Diapo 12}} \\
+    \hyperlink{13}{\beamerbutton{Diapo 13}} \\
+    \hyperlink{14}{\beamerbutton{Diapo 14}} \\
+    \hyperlink{15}{\beamerbutton{Diapo 15}} \\
+    \hyperlink{16}{\beamerbutton{Diapo 16}}
+\end{frame}
+
+\begin{frame}[
+t, % align text from top
+allowframebreaks, % allow brake frames
+fragile % allow verb content
+]{main.c}
+    \scriptsize
+    \inputminted[breaklines,breakanywhere,fontsize=\tiny,
+    tabsize=2]{c}{code/main.c}
+\end{frame}
+\begin{frame}[
+t, % align text from top
+allowframebreaks, % allow brake frames
+fragile % allow verb content
+]{misc.c}
+    \scriptsize
+    \inputminted[breaklines,breakanywhere,fontsize=\tiny,
+    tabsize=2]{c}{code/misc.c}
+\end{frame}
+\begin{frame}[
+t, % align text from top
+allowframebreaks, % allow brake frames
+fragile % allow verb content
+]{grid.c}
+    \scriptsize
+    \inputminted[breaklines,breakanywhere,fontsize=\tiny,
+    tabsize=2]{c}{code/grid.c}
+\end{frame}
+\begin{frame}[
+t, % align text from top
+allowframebreaks, % allow brake frames
+fragile % allow verb content
+]{typings.c}
+    \scriptsize
+    \inputminted[breaklines,breakanywhere,fontsize=\tiny,
+    tabsize=2]{c}{code/typings.c}
+\end{frame}
+\begin{frame}[
+t, % align text from top
+allowframebreaks, % allow brake frames
+fragile % allow verb content
+]{draw.c}
+    \scriptsize
+    \inputminted[breaklines,breakanywhere,fontsize=\tiny,
+    tabsize=2]{c}{code/draw.c}
+\end{frame}
 
 \end{document}

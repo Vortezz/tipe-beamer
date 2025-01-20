@@ -275,25 +275,71 @@ void apply_to_cell(Grid * grid, Tile ** copy, Point point, Point * neighbors, in
  *
  * @return The burn probability
  */
-double get_burn_probability(Tile tile) {
+double get_burn_probability(Tile tile, Point point, Point parent, Grid * grid) {
 	double p_v;
 	switch (tile.current_type) {
 		case TREE:
+		case DENSE_TREE:
 			p_v = 0.3;
 			break;
 		case GRASS:
-			p_v = 0;
+			p_v = -0.1;
 			break;
 		case TRENCH:
-			p_v = -0.75;
+			p_v = -0.50;
 			break;
 		default:
 			p_v = -1;
 			break;
 	}
+
+	int dx = point.x - parent.x;
+	int dy = point.y - parent.y;
+	double theta = 0;
+
+	switch (dx) {
+		case 0: {
+			if (dy == 0) {
+				theta = 0; // Should not happen
+			} else if (dy == 1) {
+				theta = 90;
+			} else {
+				theta = 270;
+			}
+			break;
+		}
+		case 1: {
+			if (dy == 0) {
+				theta = 0;
+			} else if (dy == 1) {
+				theta = 45;
+			} else {
+				theta = 315;
+			}
+			break;
+		}
+		case -1: {
+			if (dy == 0) {
+				theta = 180;
+			} else if (dy == 1) {
+				theta = 135;
+			} else {
+				theta = 225;
+			}
+			break;
+		}
+	}
+
+	theta = (grid->wind_direction - theta) * M_PI / 180;
+
 	double p_d = 0; // TODO : Implement density
-	double p_h = 0.34; // Best value is 0.58
-	double p_w = 1; // TODO : Implement wind
+	if (tile.current_type == DENSE_TREE) {
+		p_d = 0.3;
+	}
+
+	double p_h = 0.34; // TODO : Compute value, best value is 0.58 according to the paper
+	double p_w =
+			exp(0.045 * grid->wind_speed) * exp(grid->wind_speed * 0.131 * (cos(theta) - 1)); // TODO : Implement wind
 	double p_s = exp(0.078 * 0 /* TODO : Add angle for slope */);
 
 	return p_h * (1 + p_v) * (1 + p_d) * p_w * p_s;
@@ -372,13 +418,13 @@ void tick(Grid * grid) {
 
 				if (tile.state == 0) {
 					Point * direct_neighbors = get_direct_neighbors(grid, point);
-					Point * diagonal_neighbors = get_direct_neighbors(grid, point);
+					Point * diagonal_neighbors = get_diagonal_neighbors(grid, point);
 
 					for (int k = 0; k < 4; k++) {
 						Point direct_point = direct_neighbors[k];
 						if (is_valid(direct_point)) {
 							Tile direct_tile = get_tile(*grid, direct_point);
-							double p_burn = get_burn_probability(direct_tile);
+							double p_burn = get_burn_probability(direct_tile, direct_point, point, grid);
 
 							if (get_random(1000000) < p_burn * 1000000) {
 								Tile * copy_direct_tile = &copy[direct_point.x][direct_point.y];
@@ -391,9 +437,9 @@ void tick(Grid * grid) {
 						Point diagonal_point = diagonal_neighbors[k];
 						if (is_valid(diagonal_point)) {
 							Tile diagonal_tile = get_tile(*grid, diagonal_point);
-							double p_burn = get_burn_probability(diagonal_tile);
+							double p_burn = get_burn_probability(diagonal_tile, diagonal_point, point, grid);
 
-							if (get_random(100000) < p_burn * 100000) {
+							if (get_random(1000000) < p_burn * 1000000) {
 								Tile * copy_diagonal_tile = &copy[diagonal_point.x][diagonal_point.y];
 
 								copy_diagonal_tile->current_type = FIRE;
@@ -401,6 +447,9 @@ void tick(Grid * grid) {
 							}
 						}
 					}
+
+					free(direct_neighbors);
+					free(diagonal_neighbors);
 
 					copy_tile->state = 1;
 				} else {
