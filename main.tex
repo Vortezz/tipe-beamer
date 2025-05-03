@@ -4,6 +4,8 @@
 \usepackage{pgffor}
 \usepackage{minted}
 \usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{angles,quotes}
 % \usepackage[style=ieee]{biblatex}
 % \usepackage{unicode-math}
 \usepackage[prefix=]{xcolor-material}
@@ -85,12 +87,12 @@
         \end{itemize}
     \end{block}
 
-    \visible<2-2>{\begin{figure}
+    \begin{figure}
         \centering
         \includegraphics[width=0.25\linewidth]{pictures/moore.png}
-        \caption{Voisinage de Moore \visible<2-2>{\footnote{Science Direct}}}
+        \caption{Voisinage de Moore {\footnote{Science Direct}}}
         \label{fig:enter-label}
-    \end{figure}}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Un premier modèle de feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{4}{\beamerbutton{ }}}
@@ -122,7 +124,7 @@
                 \end{tabular}
             \end{table}
         \end{center}
-        \caption{Changement d'états}
+        \caption{Probabilité de changement d'état}
     \end{figure}
 \end{frame}
 
@@ -159,45 +161,67 @@
     \begin{block}{Règles de transition}
         Pour tout $(i,j,t) \in \mathbb{N}^3$, on a :
         \begin{itemize}
-            \item Si $etat(i, j, t) = feu$, alors $etat(i, j, t+1) = brule$
-            \item Si $etat(i, j, t) = feu$, alors $etat(i \pm 1, j \pm 1, t+1) = brule$ avec une probabilité $p_b$
-            \item Si $etat(i, j, t) = brule$, alors $etat(i, j, t+1) = brule$
+            \item Si $m_{i,j} (t) = $ \mintinline{latex}{feu} alors $m_{i,j} (t+1) = $ \mintinline{latex}{brulé}
+            \item Si $m_{i,j} (t) = $ \mintinline{latex}{feu} alors $m_{i \pm 1,j \pm 1} (t+1) = $ \mintinline{latex}{feu} avec une probabilité $p_b$
+            \item Si $m_{i,j} (t) = $ \mintinline{latex}{brulé} alors $m_{i,j} (t+1) = $ \mintinline{latex}{brulé}
         \end{itemize}
     \end{block}
 \end{frame}
 
 \begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{8}{\beamerbutton{ }}}
-    \begin{block}{Probabilité d'inflammage $p_b$}
+    \begin{block}{Probabilité d'inflammation $p_b$}
         On a $p_b = p_h (1 + p_{veg}) (1 + p_{den}) p_{vent}$ avec $p_h = 0.27$ une constante
     \end{block}
-    
-    \begin{block}{Probabilité liée au vent $p_{vent}$}
-        On a $p_{vent} = exp(0.045 \times v) \times exp (v \times 0.131 \times (cos(\theta) - 1))$ avec $\theta$ l'angle entre la propagation du feu et la direction du vent et $v$ la vitesse du vent (en $m/s$)
-    \end{block}
 
-    \begin{figure}
-        \begin{center}
-            \renewcommand{\arraystretch}{2}
-            \setlength{\extrarowheight}{-3pt}
-            \begin{table}
-                \begin{tabular}{ |C{4cm}|L{2cm}|C{2cm}|N }
-                \hline
-                 & \centering $p_{veg}$ & $p_{den}$ \\
-                \hline 
-                Arbres & \centering $0.3$ & $0.3$ \\ 
-                \hline
-                Arbres denses & \centering $0.3$ & $0$ \\ 
-                \hline
-                Champs & \centering $-0.1$ & $0$ \\
-                \hline 
-                \end{tabular}
-            \end{table}
-        \end{center}
+    Plus la végétation est dense, plus $p_{den}$ est élevée
+    Plus la végétation a du combustible, plus $p_{veg}$ est élevée
+
+    \begin{figure}[!h]
+        \centering
+        \renewcommand{\arraystretch}{2}
+        \setlength{\extrarowheight}{-3pt}
+        \begin{tabular}{ |>{\centering\arraybackslash}p{4cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2cm}| }
+            \cline{2-3}
+            \multicolumn{1}{c|}{} & $p_{veg}$ & $p_{den}$ \\
+            \hline 
+            Arbres & $0.3$ & $0$ \\ 
+            \hline
+            Arbres denses & $0.3$ & $0.3$ \\ 
+            \hline
+            Champs & $-0.1$ & $0$ \\
+            \hline 
+        \end{tabular}
         \caption{Probabilités $p_{veg}$ et $p_{den}$ selon le type de végétation}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{9}{\beamerbutton{ }}}
+    \begin{block}{Probabilité liée au vent $p_{vent}$}
+        On a $p_{vent} = exp(0.045 v) \times exp (0.131 v \times (cos(\theta) - 1))$ avec $\theta$ l'angle entre la propagation du feu et la direction du vent et $v$ la vitesse du vent (en $m/s$)
+    \end{block}
+
+    \vspace{30px}
+
+    \begin{tikzpicture}[> = stealth]
+        \coordinate (a) at (1,4);
+        \coordinate (b) at (2,5);
+        \coordinate (c) at (5,4);
+        \coordinate (d) at (6,4);
+        \coordinate (e) at (9,5);
+        \coordinate (f) at (10,4);
+        
+        \draw pic[draw,fill=green!30,angle radius=1cm,"$\theta_1$" shift={(6mm,1mm)}] {angle=c--a--b};
+        \draw pic[draw,fill=green!30,angle radius=2cm,"$\theta_2$" shift={(6mm,1mm)}] {angle=f--d--e};
+        
+        \draw[ultra thick,red, ->]  (a) -- node[above left] {\normalsize Vent} (b);
+        \draw[ultra thick,blue,->]  (a) -- node[below] {\normalsize Propagation du feu} (c);
+
+        \draw[ultra thick,red, ->]  (d) -- node[above left] {\normalsize Vent} (e);
+        \draw[ultra thick,blue,->]  (d) -- node[below] {\normalsize Propagation du feu} (f);
+        \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{10}{\beamerbutton{ }}}
     Comparaison du premier modèle et de celui d'Alexandridis à $t=200$.
     
     \begin{figure}[!htb]
@@ -214,7 +238,7 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{10}{\beamerbutton{ }}}
+\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{11}{\beamerbutton{ }}}
     Comparaison selon la densité de végétation avec $15$ m/s de vent vers l'est.
 
     \begin{figure}[!htb]
@@ -231,7 +255,7 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{11}{\beamerbutton{ }}}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{12}{\beamerbutton{ }}}
     \begin{block}{Objectif}
         Mieux protéger la forêt contre les incendies en la modifiant le moins possible.
     \end{block}
@@ -244,27 +268,23 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{12}{\beamerbutton{ }}}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{13}{\beamerbutton{ }}}
     \begin{block}{Nouveau type de case :}
         \begin{itemize}
             \item Chemins/Tranchées avec $p_{veg} = -0.55$ et $p_{den} = 0$
         \end{itemize}
     \end{block}
 
-    \begin{block}{Probabilité d'inflammage $p_b$}
-        On a $p_b = p_h (1 + p_{veg}) (1 + p_{den}) p_{vent}$ avec $p_h = 0.27$ une constante
-    \end{block}
-
     \begin{figure}
         \centering
-        \includegraphics[width=.3\linewidth]{pictures/model1/land_before.png}
+        \includegraphics[width=.3\linewidth]{pictures/trans/treach_ex.png}
         \caption{Exemple de chemins}\label{Fig:Data1}
         \label{fig:enter-label}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{13}{\beamerbutton{ }}}
-    Comparaison entre une forêt avec une tranchée et une sans (moyennée sur $100$ générations)
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{14}{\beamerbutton{ }}}
+    Comparaison entre une forêt avec une tranchée et une sans
     
     \begin{figure}[!htb]
         \begin{minipage}{0.48\textwidth}
@@ -280,8 +300,8 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{14}{\beamerbutton{ }}}
-    Comparaison entre une forêt avec une tranchée et $15$ ou $30$ m/s de vent (moyennée sur $100$ générations)
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{15}{\beamerbutton{ }}}
+    Comparaison entre une forêt avec une tranchée et $15$ ou $30$ m/s de vent
     
     \begin{figure}[!htb]
         \begin{minipage}{0.48\textwidth}
@@ -297,8 +317,8 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{15}{\beamerbutton{ }}}
-    Comparaison entre deux tranchées de largeurs différentes (moyennée sur $100$ générations)
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{16}{\beamerbutton{ }}}
+    Comparaison entre deux tranchées de largeurs différentes
     
     \begin{figure}[!htb]
         \begin{minipage}{0.48\textwidth}
@@ -314,7 +334,9 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Conclusion \hyperlink{jump}{\beamerbutton{ }} \hypertarget{16}{\beamerbutton{ }}}
+\begin{frame}{Conclusion \hyperlink{jump}{\beamerbutton{ }} \hypertarget{17}{\beamerbutton{ }}}
+    Le modèle d'Alexandridis permet de visualiser l'effet de tranchées contre la propagation du feu, donc de réduire l'impact des incendies
+    
     Possibilité de prendre en compte pour améliorer les simulations :
     \begin{itemize}
         \item Humidité
@@ -347,7 +369,8 @@
     \hyperlink{13}{\beamerbutton{Diapo 13}} \\
     \hyperlink{14}{\beamerbutton{Diapo 14}} \\
     \hyperlink{15}{\beamerbutton{Diapo 15}} \\
-    \hyperlink{16}{\beamerbutton{Diapo 16}}
+    \hyperlink{16}{\beamerbutton{Diapo 16}} \\
+    \hyperlink{17}{\beamerbutton{Diapo 17}}
 \end{frame}
 
 \begin{frame}[
