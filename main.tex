@@ -78,7 +78,31 @@
     \tableofcontents
 \end{frame}
 
-\begin{frame}{Un premier modèle de feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{3}{\beamerbutton{ }}}
+\begin{frame}
+    \frametitle{Choix d'implémentation \hyperlink{jump}{\beamerbutton{ }} \hypertarget{3}{\beamerbutton{ }}}
+   
+\textbf{Langage} : \mintinline{latex}{C99} \\ \\
+\textbf{Motivations} :
+\begin{itemize}
+    \item Bas niveau → Gain temps exécution (calculs importants)
+    \item Écosystème de bibliothèques vaste et mature (vs. \mintinline{latex}{OCaml})
+\end{itemize}
+
+\textbf{Bibliothèques externes} :
+\begin{itemize}
+    \item \mintinline{latex}{SDL2} : Interface graphique (visualisation en temps réel)
+    \item \mintinline{latex}{cJSON} : Manipulation de \mintinline{latex}{JSON} (configurations initiales)
+    \item \mintinline{latex}{png} : Création/manipulation de \mintinline{latex}{PNG} (export des résultats)
+\end{itemize}
+
+\textbf{Outil de configuration} :
+\begin{itemize}
+    \item Site web interactif (\mintinline{latex}|React.JS|) pour la conception des forêts
+    \item Export au format \mintinline{latex}{JSON} (pour la simulation en \mintinline{latex}{C})
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Un premier modèle de feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{4}{\beamerbutton{ }}}
     \begin{block}{Automate cellulaire (2D)}
         \begin{itemize}
             \item Une grille
@@ -95,7 +119,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Un premier modèle de feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{4}{\beamerbutton{ }}}
+\begin{frame}{Un premier modèle de feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{5}{\beamerbutton{ }}}
     \begin{block}{Types de cases :}
         \begin{itemize}
             \item Arbres
@@ -128,7 +152,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Un premier modèle de feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{5}{\beamerbutton{ }}}
+\begin{frame}{Un premier modèle de feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{6}{\beamerbutton{ }}}
     \begin{figure}[!htb]
         \begin{minipage}{0.48\textwidth}
           \centering
@@ -137,19 +161,19 @@
         \end{minipage}\hfill
         \begin{minipage}{0.48\textwidth}
           \centering
-          \includegraphics[width=.8\linewidth]{pictures/model1/land_200.png}
-          \caption{À $t=200$}\label{Fig:Data2}
+          \includegraphics[width=.8\linewidth]{pictures/model1/land_300.png}
+          \caption{À $t=300$}\label{Fig:Data2}
         \end{minipage}
      \end{figure}
 \end{frame}
 
-\begin{frame}{Vers le modèle d'Alexandridis \hyperlink{jump}{\beamerbutton{ }} \hypertarget{6}{\beamerbutton{ }}}
+\begin{frame}{Vers le modèle d'Alexandridis \hyperlink{jump}{\beamerbutton{ }} \hypertarget{7}{\beamerbutton{ }}}
     \begin{block}{Idée}
         Il serait intéressant de prendre en compte des données du milieu : vent, densité de végétation
     \end{block}
 \end{frame}
 
-\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{7}{\beamerbutton{ }}}
+\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{8}{\beamerbutton{ }}}
     \begin{block}{Nouveau type de case :}
         \begin{itemize}
             \item Arbres denses
@@ -168,7 +192,7 @@
     \end{block}
 \end{frame}
 
-\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{8}{\beamerbutton{ }}}
+\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{9}{\beamerbutton{ }}}
     \begin{block}{Probabilité d'inflammation $p_b$}
         On a $p_b = p_h (1 + p_{veg}) (1 + p_{den}) p_{vent}$ avec $p_h = 0.27$ une constante
     \end{block}
@@ -195,7 +219,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{9}{\beamerbutton{ }}}
+\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{10}{\beamerbutton{ }}}
     \begin{block}{Probabilité liée au vent $p_{vent}$}
         On a $p_{vent} = exp(0.045 v) \times exp (0.131 v \times (cos(\theta) - 1))$ avec $\theta$ l'angle entre la propagation du feu et la direction du vent et $v$ la vitesse du vent (en $m/s$)
     \end{block}
@@ -221,24 +245,24 @@
         \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{10}{\beamerbutton{ }}}
-    Comparaison du premier modèle et de celui d'Alexandridis à $t=200$.
+\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{11}{\beamerbutton{ }}}
+    Comparaison du premier modèle ($t=300$) et de celui d'Alexandridis ($t=150$).
     
     \begin{figure}[!htb]
         \begin{minipage}{0.48\textwidth}
           \centering
-          \includegraphics[width=.8\linewidth]{pictures/model1/land_200.png}
+          \includegraphics[width=.8\linewidth]{pictures/model1/land_300.png}
           \caption{Modèle 1}\label{Fig:Data1}
         \end{minipage}\hfill
         \begin{minipage}{0.48\textwidth}
           \centering
-          \includegraphics[width=.8\linewidth]{pictures/model2/land_200_nowind.png}
+          \includegraphics[width=.8\linewidth]{pictures/model2/land_150_nowind.png}
           \caption{Modèle 2}\label{Fig:Data2}
         \end{minipage}
      \end{figure}
 \end{frame}
 
-\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{11}{\beamerbutton{ }}}
+\begin{frame}{Modèle d'Alexandridis pour les feux de forêt \hyperlink{jump}{\beamerbutton{ }} \hypertarget{12}{\beamerbutton{ }}}
     Comparaison selon la densité de végétation avec $15$ m/s de vent vers l'est.
 
     \begin{figure}[!htb]
@@ -255,7 +279,7 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{12}{\beamerbutton{ }}}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{13}{\beamerbutton{ }}}
     \begin{block}{Objectif}
         Mieux protéger la forêt contre les incendies en la modifiant le moins possible.
     \end{block}
@@ -268,7 +292,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{13}{\beamerbutton{ }}}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{14}{\beamerbutton{ }}}
     \begin{block}{Nouveau type de case :}
         \begin{itemize}
             \item Chemins/Tranchées avec $p_{veg} = -0.55$ et $p_{den} = 0$
@@ -283,7 +307,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{14}{\beamerbutton{ }}}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{15}{\beamerbutton{ }}}
     Comparaison entre une forêt avec une tranchée et une sans
     
     \begin{figure}[!htb]
@@ -300,7 +324,7 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{15}{\beamerbutton{ }}}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{16}{\beamerbutton{ }}}
     Comparaison entre une forêt avec une tranchée et $15$ ou $30$ m/s de vent
     
     \begin{figure}[!htb]
@@ -317,7 +341,7 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{16}{\beamerbutton{ }}}
+\begin{frame}{Transformations envisageables \hyperlink{jump}{\beamerbutton{ }} \hypertarget{17}{\beamerbutton{ }}}
     Comparaison entre deux tranchées de largeurs différentes
     
     \begin{figure}[!htb]
@@ -334,7 +358,7 @@
      \end{figure}
 \end{frame}
 
-\begin{frame}{Conclusion \hyperlink{jump}{\beamerbutton{ }} \hypertarget{17}{\beamerbutton{ }}}
+\begin{frame}{Conclusion \hyperlink{jump}{\beamerbutton{ }} \hypertarget{18}{\beamerbutton{ }}}
     Le modèle d'Alexandridis permet de visualiser l'effet de tranchées contre la propagation du feu, donc de réduire l'impact des incendies
     
     Possibilité de prendre en compte pour améliorer les simulations :
@@ -370,7 +394,132 @@
     \hyperlink{14}{\beamerbutton{Diapo 14}} \\
     \hyperlink{15}{\beamerbutton{Diapo 15}} \\
     \hyperlink{16}{\beamerbutton{Diapo 16}} \\
-    \hyperlink{17}{\beamerbutton{Diapo 17}}
+    \hyperlink{17}{\beamerbutton{Diapo 17}} \\
+    \hyperlink{17}{\beamerbutton{Diapo 18}}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Annexe : Génération de grilles}
+   
+    \begin{figure}[!h]
+        \begin{minipage}{0.95\textwidth}
+          \centering
+          \includegraphics[width=1\linewidth]{pictures/website.png}
+          \caption{Site de génération de grilles}\label{Fig:Data1}
+        \end{minipage}
+     \end{figure}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Annexe : Hashlife}
+    
+    Hashlife est un algorithme permettant d'accélérer les calculs.
+
+    La grille est découpée en \textit{macro-cellules} de taille $2^n \times 2^n$.
+
+    \begin{figure}[!ht]
+    \centering
+        \begin{tikzpicture}[> = stealth]
+            \draw[step=0.25cm,color=gray] (-1,-1) grid (1,1);
+            \draw[fill=blue,fill opacity=0.7,draw=black] (-1,-1) rectangle ++(1,1);
+            \draw[fill=blue,fill opacity=0.5,draw=black] (-1,0) rectangle ++(1,1);
+            \draw[fill=blue,fill opacity=0.7,draw=black] (0,0) rectangle ++(1,1);
+            \draw[fill=blue,fill opacity=0.5,draw=black] (0,-1) rectangle ++(1,1);
+            \draw[step=1cm,color=black] (-1,-1) grid (1,1);
+            \draw[step=0.25cm,color=gray] (2,-1) grid (4,1);
+            \draw[step=1cm,color=black] (2,-1) grid (4,1);
+            \draw[fill=red,fill opacity=0.6,draw=black] (2.5,-0.5) rectangle ++(1,1);
+        \end{tikzpicture}
+    \caption{Une macro-cellule de taille $2^{3} \times 2^{3}$}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+    \frametitle{Annexe : Hashlife}
+    
+    Le calcul est fait récursivement :
+
+    \begin{itemize}
+        \item Cas de base ($n = 2$), alors on applique les règles du jeu de la vie  \vspace{10px}
+        
+        \item Cas récursif ($n > 2$), 4 quadrants de taille $2^{n-1} \times 2^{n-1}$, calcul récursif de leur résultat (bleu). Calculer des 5 macro-cellules de taille $2^{n-2} \times 2^{n-2}$ (rouge) avec les macro-cellules de taille $2^{n-1} \times 2^{n-1}$ associées (vert). Calcul des 4 macro-cellules de taille $2^{n-2}$ pour avoir le résultat.
+    \end{itemize}
+  
+    \begin{figure}[!ht]
+        \centering
+            \begin{tikzpicture}[> = stealth]
+                \draw[fill=none,draw=black] (-1,-1) rectangle ++(2,2);
+                \draw[step=1cm,color=black] (-1,-1) grid (1,1);
+                \draw[fill=blue,fill opacity=0.6,draw=black] (-0.75,-0.75) rectangle ++(0.5,0.5);
+                \draw[fill=blue,fill opacity=0.6,draw=black] (0.25,-0.75) rectangle ++(0.5,0.5);
+                \draw[fill=blue,fill opacity=0.6,draw=black] (-0.75,0.25) rectangle ++(0.5,0.5);
+                \draw[fill=blue,fill opacity=0.6,draw=black] (0.25,0.25) rectangle ++(0.5,0.5);
+                \draw[step=1cm,color=black] (2,-1) grid (4,1);
+                \draw[fill=gray,fill opacity=0.6,draw=black] (2.25,-0.75) rectangle ++(0.5,0.5);
+                \draw[fill=gray,fill opacity=0.6,draw=black] (3.25,-0.75) rectangle ++(0.5,0.5);
+                \draw[fill=gray,fill opacity=0.6,draw=black] (2.25,0.25) rectangle ++(0.5,0.5);
+                \draw[fill=gray,fill opacity=0.6,draw=black] (3.25,0.25) rectangle ++(0.5,0.5);
+                \draw[fill=red,fill opacity=0.6,draw=black] (2.25,-0.25) rectangle ++(0.5,0.5);
+                \draw[fill=red,fill opacity=0.6,draw=black] (2.75,-0.75) rectangle ++(0.5,0.5);
+                \draw[fill=red,fill opacity=0.6,draw=black] (2.75,0.25) rectangle ++(0.5,0.5);
+                \draw[fill=red,fill opacity=0.6,draw=black] (3.25,-0.25) rectangle ++(0.5,0.5);
+                \draw[fill=red,fill opacity=0.6,draw=black] (2.75,-0.25) rectangle ++(0.5,0.5);
+                \draw[step=1cm,color=black] (5,-1) grid (7,1);
+                \draw[fill=green,fill opacity=0.9,draw=black] (5,-0.5) rectangle ++(1,1);
+                \draw[fill=red,fill opacity=0.6,draw=black] (5.25,-0.25) rectangle ++(0.5,0.5);
+                \draw[step=1cm,color=black] (8,-1) grid (10,1);
+                \draw[fill=yellow,fill opacity=0.8,draw=black] (8.5,-0.5) rectangle ++(0.5,0.5);
+                \draw[fill=yellow,fill opacity=0.8,draw=black] (9,-0.5) rectangle ++(0.5,0.5);
+                \draw[fill=yellow,fill opacity=0.8,draw=black] (8.5,0.0) rectangle ++(0.5,0.5);
+                \draw[fill=yellow,fill opacity=0.8,draw=black] (9,0.0) rectangle ++(0.5,0.5);
+            \end{tikzpicture}
+        \caption{Calcul dans le cas $n > 2$}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Annexe : Hashlife}
+    
+    Autre amélioration : Les résultats des calculs sont mémoïsés car les motifs se répètent.
+
+    \begin{figure}[!ht]
+    \centering
+        \begin{tikzpicture}[> = stealth,x=5mm,y=5mm]
+            \draw[step=0.2cm,color=gray] (0,0) grid (2,2);
+            \draw[fill=black,draw=black] (0.4,0.8) rectangle ++(0.4,0.4);
+            \draw[fill=black,draw=black] (0.8,0.4) rectangle ++(0.4,0.4);
+            \draw[fill=black,draw=black] (1.2,0.4) rectangle ++(0.4,1.2);
+            \draw[step=1cm,color=black] (0,0) grid (2,2);
+            \draw[step=0.2cm,color=gray] (3.2,0) grid (5.2,2);
+            \draw[fill=none,draw=black] (3.2,0) rectangle ++(2,2);
+            \draw[fill=black,draw=black] (3.6,1.2) rectangle ++(0.4,0.4);
+            \draw[fill=black,draw=black] (3.6,0.4) rectangle ++(0.8,0.4);
+            \draw[fill=black,draw=black] (4,0.8) rectangle ++(0.8,0.4);
+            \draw[step=0.2cm,color=gray] (6.4,0) grid (8.4,2);
+            \draw[fill=none,draw=black] (6.4,0) rectangle ++(2,2);
+            \draw[fill=black,draw=black] (6.8,0.4) rectangle ++(1.2,0.4);
+            \draw[fill=black,draw=black] (7.6,0.8) rectangle ++(0.4,0.4);
+            \draw[fill=black,draw=black] (7.2,1.2) rectangle ++(0.4,0.4);
+            \draw[step=0.2cm,color=gray] (9.6,0) grid (11.6,2);
+            \draw[fill=none,draw=black] (9.6,0) rectangle ++(2,2);
+            \draw[fill=black,draw=black] (10,0.8) rectangle ++(0.4,0.4);
+            \draw[fill=black,draw=black] (10.4,0) rectangle ++(0.4,0.8);
+            \draw[fill=black,draw=black] (10.8,0.4) rectangle ++(0.4,0.8);
+            \draw[step=0.2cm,color=gray] (12.8,0) grid (14.8,2);
+            \draw[fill=none,draw=black] (12.8,0) rectangle ++(2,2);
+            \draw[fill=black,draw=black] (13.6,0.4) rectangle ++(0.4,0.4);
+            \draw[fill=black,draw=black] (14,0) rectangle ++(0.4,0.4);
+            \draw[fill=black,draw=black] (14.4,0) rectangle ++(0.4,1.2);
+        \end{tikzpicture}
+    \caption{Un \textit{glider} et sa périodicité}
+\end{figure}
+
+    Cependant il peut y avoir beaucoup de configurations à stocker, il faut donc mémoïser efficacement.
+
+    En pratique on a une complexité logarithmique au lieu du linéaire
 \end{frame}
 
 \begin{frame}[

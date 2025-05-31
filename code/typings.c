@@ -65,17 +65,17 @@ typedef enum {
 	 */
 	TREE,
 	/**
-	 * A dense tree tile
+	 * A grass tile
 	 */
-	DENSE_TREE,
+	GRASS,
 	/**
 	 * A water tile
 	 */
 	WATER,
 	/**
-	 * A grass tile
+	 * A dense tree tile
 	 */
-	GRASS,
+	 DENSE_TREE,
 	/**
 	 * A fire tile
 	 */
@@ -110,6 +110,10 @@ typedef struct {
 	 * The state of the tile (for example, the state of a fire)
 	 */
 	int state;
+	/**
+	 * The altitude of the tile
+	 */
+	double altitude;
 } Tile;
 
 /**
@@ -156,6 +160,10 @@ typedef struct {
 	 * Wind speed
 	 */
 	double wind_speed;
+	/**
+	 * Number of elapsed time intervals
+	 */
+	int n_intervals;
 } Grid;
 
 /**
